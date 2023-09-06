@@ -1,3 +1,5 @@
+using Application.Activities;
+using Application.Core;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -9,17 +11,23 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<DataContext>(opt => {
+builder.Services.AddDbContext<DataContext>(opt =>
+{
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 //CORS policy
-builder.Services.AddCors(opt => 
+builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("CorsPolicy", policy =>
     {
         policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
     });
 });
+//Register MediatR
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(List.Handler).Assembly));
+
+//Register AutoMapper
+builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
 var app = builder.Build();
 
@@ -39,12 +47,15 @@ app.MapControllers();
 
 using var scope = app.Services.CreateScope();
 var service = scope.ServiceProvider;
-try{
+try
+{
     var context = service.GetRequiredService<DataContext>();
-   await context.Database.MigrateAsync();
-   await Seed.SeedData(context);
+    await context.Database.MigrateAsync();
+    await Seed.SeedData(context);
 
-}catch(Exception e){
+}
+catch (Exception e)
+{
     var logger = service.GetRequiredService<ILogger<Program>>();
     logger.LogError(e, "error occurred during migration");
 }
