@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { Activity } from "../models/activity";
 
-const responseBody = (response: AxiosResponse) => response.data;
+const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 
