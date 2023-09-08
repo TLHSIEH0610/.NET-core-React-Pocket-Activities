@@ -9,9 +9,7 @@ function App() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/activities").then((res) => {
-      console.log(res.data);
-    });
+    axios.get("http://localhost:5000/api/activities").then((res) => {});
   });
 
   return (

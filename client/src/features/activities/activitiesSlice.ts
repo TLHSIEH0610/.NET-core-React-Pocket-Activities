@@ -13,13 +13,11 @@ export const activitiesSlice = createSlice({
   name: "activity",
   initialState,
   reducers: {
-    // loadActivities: (state) => {
-    //   state.value += 1;
-    // },
+    set: (state, action) => {},
   },
 });
 
 // Action creators are generated for each case reducer function
-export const {} = activitiesSlice.actions;
+export const { set } = activitiesSlice.actions;
 
 export default activitiesSlice.reducer;

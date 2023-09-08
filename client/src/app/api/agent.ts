@@ -13,7 +13,7 @@ const methods = {
   delete: <T>(url: string) => axios.delete<T>(url).then(responseBody),
 };
 
-export const activityAPIs = {
+const agent = {
   list: () => methods.get<Activity[]>("/activities"),
   details: (id: string) => methods.get<Activity>(`/activities/${id}`),
   create: (activity: Activity) => methods.post<void>(`/activities`, activity),
@@ -21,3 +21,5 @@ export const activityAPIs = {
     methods.put<void>(`/activities/${activity.id}`, activity),
   delete: (id: string) => methods.delete<void>(`/activities/${id}`),
 };
+
+export default agent;
