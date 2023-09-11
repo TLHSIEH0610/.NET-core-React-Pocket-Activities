@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { loadActivity, updateActivity, createActivity } from "../queries";
 import { Button, Header, Segment } from "semantic-ui-react";
 import { Formik, Form } from "formik";
@@ -8,14 +8,12 @@ import StyledSelector from "../../../app/common/form/StyledSelector";
 import StyledDatePicker from "../../../app/common/form/StyledDatePicker";
 import { object, string } from "yup";
 import { Activity } from "../../../app/models/activity";
-import { DateTime } from "luxon";
 
 const initialActivity = {
-  id: "",
   title: "",
   category: "",
   description: "",
-  date: "",
+  date: new Date(),
   city: "",
   venue: "",
 };
@@ -37,13 +35,22 @@ const validationSchema = object({
 });
 
 const ActivityForm = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { data: activity = initialActivity, isLoading: loadingActivity } =
     loadActivity(id || "");
-  const { mutate: updateMutation } = updateActivity();
-  const { mutate: createMutation } = createActivity();
+  const { mutate: updateMutation, isLoading: updateLoading } = updateActivity();
+  const { mutate: createMutation, isLoading: createLoading } = createActivity();
+  const btnLoading = loadingActivity || updateLoading || createLoading;
+
   const handleFormSubmit = async (values: Activity) => {
-    console.log(values);
+    if (id) {
+      updateMutation(values);
+    } else {
+      createMutation(values);
+    }
+
+    navigate(`/activities/${id ?? ""}`);
   };
 
   return (
@@ -81,7 +88,7 @@ const ActivityForm = () => {
 
             <Button
               disabled={isSubmitting || !dirty || !isValid}
-              loading={loadingActivity}
+              loading={btnLoading}
               floated="right"
               positive
               type="submit"

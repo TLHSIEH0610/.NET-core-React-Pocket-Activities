@@ -1,12 +1,11 @@
 import { Link, useParams } from "react-router-dom";
 import { Button, Card, Image } from "semantic-ui-react";
 import { loadActivity } from "../queries";
+import { dateToString } from "../../../app/common/utils";
 
 const ActivityDetails = () => {
   const { id } = useParams();
   const { data: activity, isLoading } = loadActivity(id || "");
-
-  console.log({ id });
 
   if (isLoading || !activity) return "loading";
 
@@ -16,7 +15,7 @@ const ActivityDetails = () => {
       <Card.Content>
         <Card.Header>{activity.title}</Card.Header>
         <Card.Meta>
-          <span>{activity.date}</span>
+          <span>{dateToString(activity.date)}</span>
         </Card.Meta>
         <Card.Description>{activity.description}</Card.Description>
       </Card.Content>

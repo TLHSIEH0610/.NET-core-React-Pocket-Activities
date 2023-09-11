@@ -2,6 +2,7 @@ import { useAppSelector } from "../../../app/store/hooks";
 import { Link } from "react-router-dom";
 import { Button, Item, Label, Segment } from "semantic-ui-react";
 import { loadActivities, deleteActivity } from "../queries";
+import { dateToString } from "../../../app/common/utils";
 
 const ActivityDashboard = () => {
   const acticities = useAppSelector((state) => state.acticities);
@@ -16,7 +17,7 @@ const ActivityDashboard = () => {
           <Item key={activity.id}>
             <Item.Content>
               <Item.Header as="a">{activity.title}</Item.Header>
-              <Item.Meta>{activity.date}</Item.Meta>
+              <Item.Meta>{dateToString(activity.date)}</Item.Meta>
               <Item.Description>
                 <div>{activity.description}</div>
                 <div>
@@ -40,7 +41,7 @@ const ActivityDashboard = () => {
                   floated="right"
                   content="Delete"
                   color="red"
-                  onClick={() => deleteMutation(activity.id)}
+                  onClick={() => deleteMutation(activity.id!)}
                 />
                 <Label basic content={activity.category} />
               </Item.Extra>
