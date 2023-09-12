@@ -3,11 +3,14 @@ import HomePage from "../../features/home/HomePage";
 import NavBar from "./NavBar";
 import "./styles.css";
 import { Container } from "semantic-ui-react";
+import { ToastContainer } from "react-toastify";
+
 function App() {
   const { pathname } = useLocation();
 
   return (
-    <div>
+    <>
+      <ToastContainer position="bottom-right" hideProgressBar theme="colored" />
       {pathname === "/" ? (
         <HomePage />
       ) : (
@@ -18,7 +21,7 @@ function App() {
           </Container>
         </>
       )}
-    </div>
+    </>
   );
 }
 

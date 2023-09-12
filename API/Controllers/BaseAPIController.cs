@@ -12,7 +12,7 @@ namespace API.Controllers
         //if some other controller doesn't have a mediator, then get it again.
         protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
 
-        //return validation result
+        //accept arg from mediator and return validation result
         protected ActionResult HandleResult<T>(Result<T> result)
         {
             if (result == null) return NotFound();
