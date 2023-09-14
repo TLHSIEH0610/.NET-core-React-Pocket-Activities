@@ -14,6 +14,7 @@ namespace API.Extensions
         {
             services.AddIdentityCore<AppUser>(opt =>
             {
+                //settings for user table 
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.User.RequireUniqueEmail = true;
             })
