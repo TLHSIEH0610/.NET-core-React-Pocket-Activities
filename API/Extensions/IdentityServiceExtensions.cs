@@ -20,7 +20,7 @@ namespace API.Extensions
             .AddEntityFrameworkStores<DataContext>();
 
             //setup jwt validation (nuget JwtBearer)
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("1b4e4aaba96740598e9930e8be63ea6632cf126c7654d7c2bc7a8313bd0e2b78bfd612189124ca1871be8e344578a063ce8717161f14368de70d3ce3419abe36"));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
             {
