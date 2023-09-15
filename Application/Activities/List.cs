@@ -5,6 +5,7 @@ using Persistence;
 using Application.Core;
 using API.DTOs;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
 namespace Application.Activities
 {
@@ -25,8 +26,8 @@ namespace Application.Activities
 
             public async Task<Result<List<ActivityDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var activities = await _context.Activities.Include(a => a.Attendees).ThenInclude(a => a.AppUser).ToListAsync();
-                //use ActivityDto instead of Activity to shape data and prevent infinite loop/object cycle
+                var activities = await _context.Activities.ProjectTo<ActivityDto>(_mapper.ConfigurationProvider).ToListAsync();
+                //use ActivityDto instead of Activity to shape data and prevent infinite loop/object cycle error
                 var shapedActivities = _mapper.Map<List<ActivityDto>>(activities);
                 return Result<List<ActivityDto>>.Success(shapedActivities);
             }
