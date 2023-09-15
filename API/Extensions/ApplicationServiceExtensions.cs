@@ -5,6 +5,8 @@ using Application.Core;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using Application.Interfaces;
+using Infrastructure.Security;
 
 namespace API.Extensions
 {
@@ -31,6 +33,9 @@ namespace API.Extensions
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             services.AddFluentValidationAutoValidation();
             services.AddValidatorsFromAssemblyContaining<Create>();
+            //ifrastructure : useraccessor
+            services.AddHttpContextAccessor();
+            services.AddScoped<IUserAccessor, UserAccessor>();
 
             return services;
         }
