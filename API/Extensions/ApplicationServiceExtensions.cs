@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Persistence;
 using Application.Interfaces;
 using Infrastructure.Security;
+using Infrastructure.Photos;
 
 namespace API.Extensions
 {
@@ -36,6 +37,8 @@ namespace API.Extensions
             //ifrastructure : useraccessor
             services.AddHttpContextAccessor();
             services.AddScoped<IUserAccessor, UserAccessor>();
+            //cloudinary
+            services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
 
             return services;
         }
