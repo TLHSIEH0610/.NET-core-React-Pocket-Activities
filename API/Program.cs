@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using API.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,12 +36,14 @@ if (app.Environment.IsDevelopment())
 //CORS middleware
 app.UseCors("CorsPolicy");
 
-
+//Auth
 app.UseAuthentication(); //must before authorization
 app.UseAuthorization();
 
-
 app.MapControllers();
+
+//route for signalR
+app.MapHub<ChatHub>("/chat");
 
 using var scope = app.Services.CreateScope();
 var service = scope.ServiceProvider;

@@ -2,6 +2,7 @@ using AutoMapper;
 using Domain;
 using API.DTOs;
 using Application.Activities;
+using Application.Comments;
 namespace Application.Core
 {
     public class MappingProfiles : Profile
@@ -23,6 +24,12 @@ namespace Application.Core
             CreateMap<AppUser, Profiles.Profile>()
             .ForMember(d => d.Image, o => o.MapFrom(s => s.Photos.FirstOrDefault(p => p.IsMain).Url))
             .ForMember(d => d.AppUserId, o => o.MapFrom(s => s.Id));
+
+            CreateMap<Comment, CommentDto>()
+            .ForMember(d => d.DisplayName, o => o.MapFrom(s => s.Author.DisplayName))
+            .ForMember(d => d.Username, o => o.MapFrom(s => s.Author.UserName))
+            .ForMember(d => d.Email, o => o.MapFrom(s => s.Author.Email))
+            .ForMember(d => d.Image, o => o.MapFrom(s => s.Author.Email));
 
         }
     }
