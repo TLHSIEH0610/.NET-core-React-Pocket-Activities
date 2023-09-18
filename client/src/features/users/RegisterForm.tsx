@@ -7,6 +7,7 @@ import { useAppDispatch } from "../../app/store/hooks";
 import { closeModal } from "../../app/common/commonSlice";
 import { useNavigate } from "react-router-dom";
 import { setToken } from "./usersSlice";
+import ValidationError from "../errors/ValidateError";
 
 const initialValue = {
   displayName: "",
@@ -54,14 +55,7 @@ const RegsiterForm = () => {
           <StyledInput placeholder="Password" name="password" type="password" />
           <ErrorMessage
             name="error"
-            render={() => (
-              <Label
-                style={{ marginBottom: 10 }}
-                basic
-                color="red"
-                content={errors.error}
-              />
-            )}
+            render={() => <ValidationError errors={errors.error} />}
           />
           <Button
             disabled={!isValid || !dirty || registerLoading}

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../app/models/user";
+import { router } from "../../app/router/Routes";
 
 interface State {
   user: User | null;
@@ -24,6 +25,7 @@ export const usersSlice = createSlice({
       state.token = null;
       state.user = null;
       localStorage.removeItem("jwt");
+      router.navigate("/");
     },
   },
 });
