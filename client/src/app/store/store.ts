@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import activitiesReducer from "../../features/activities/activitiesSlice";
+import usersReducer from "../../features/users/usersSlice";
 
 const store = configureStore({
   reducer: {
     acticities: activitiesReducer,
+    users: usersReducer,
   },
 });
 

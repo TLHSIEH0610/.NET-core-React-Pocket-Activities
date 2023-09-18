@@ -2,6 +2,7 @@ import axios, { AxiosResponse, AxiosError } from "axios";
 import { Activity } from "../models/activity";
 import { router } from "../router/Routes";
 import { toast } from "react-toastify";
+import { UserFormValues, User } from "../models/user";
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
@@ -61,13 +62,25 @@ const methods = {
   delete: <T>(url: string) => axios.delete<T>(url).then(responseBody),
 };
 
-const agent = {
+const activity = {
   list: () => methods.get<Activity[]>("/activities"),
   details: (id: string) => methods.get<Activity>(`/activities/${id}`),
   create: (activity: Activity) => methods.post<void>(`/activities`, activity),
   update: (activity: Activity) =>
     methods.put<void>(`/activities/${activity.id}`, activity),
   delete: (id: string) => methods.delete<void>(`/activities/${id}`),
+};
+
+const account = {
+  current: () => methods.get<User>("account"),
+  login: (user: UserFormValues) => methods.post<User>("/account/login", user),
+  register: (user: UserFormValues) =>
+    methods.post<User>("/account/register", user),
+};
+
+const agent = {
+  activity,
+  account,
 };
 
 export default agent;
