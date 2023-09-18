@@ -3,10 +3,17 @@ import { Activity } from "../models/activity";
 import { router } from "../router/Routes";
 import { toast } from "react-toastify";
 import { UserFormValues, User } from "../models/user";
+import { useAppSelector } from "../store/hooks";
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 axios.defaults.baseURL = "http://localhost:5000/api";
+
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem("jwt");
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
 
 axios.interceptors.response.use(
   async (response) => {

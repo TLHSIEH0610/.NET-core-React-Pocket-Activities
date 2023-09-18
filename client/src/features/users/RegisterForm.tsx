@@ -1,41 +1,55 @@
 import { ErrorMessage, Form, Formik } from "formik";
 import { Button, Header, Label } from "semantic-ui-react";
 import StyledInput from "../../app/common/form/StyledTextInput";
-import { login } from "./queries";
-import { useAppSelector, useAppDispatch } from "../../app/store/hooks";
-import { setToken } from "./usersSlice";
+import * as Yup from "yup";
+import { register } from "./queries";
+import { useAppDispatch } from "../../app/store/hooks";
 import { closeModal } from "../../app/common/commonSlice";
 import { useNavigate } from "react-router-dom";
+import { setToken } from "./usersSlice";
 
-export default function LoginForm() {
-  const { mutateAsync: loginMut, isLoading: loginLoading } = login();
-  //   const users = useAppSelector((state) => state.users);
+const initialValue = {
+  displayName: "",
+  username: "",
+  email: "",
+  password: "",
+  error: null,
+};
+
+const RegsiterForm = () => {
+  const { mutateAsync: registerMut, isLoading: registerLoading } = register();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   return (
     <Formik
-      initialValues={{ email: "", password: "", error: null }}
+      initialValues={initialValue}
       onSubmit={(values, { setErrors }) =>
-        loginMut(values)
+        registerMut(values)
           .then((res) => {
-            dispatch(setToken(res.token));
             dispatch(closeModal());
+            dispatch(setToken(res.token));
             navigate("/activities");
           })
-          .catch((e) => {
-            console.log(e);
-            setErrors({ error: "Invalid email or password" });
-          })
+          .catch((error) => setErrors({ error: error }))
       }
+      validationSchema={Yup.object({
+        displayName: Yup.string().required(),
+        username: Yup.string().required(),
+        email: Yup.string().required(),
+        password: Yup.string().required(),
+      })}
     >
-      {({ handleSubmit, errors }) => (
-        <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
+      {({ errors, isValid, dirty }) => (
+        <Form className="ui form error" autoComplete="off">
           <Header
             as="h2"
-            content="Login to Reactivities"
+            content="Sign up to Reactivities"
             color="teal"
             textAlign="center"
           />
+          <StyledInput placeholder="Prefer Name" name="displayName" />
+          <StyledInput placeholder="Username" name="username" />
           <StyledInput placeholder="Email" name="email" />
           <StyledInput placeholder="Password" name="password" type="password" />
           <ErrorMessage
@@ -50,9 +64,10 @@ export default function LoginForm() {
             )}
           />
           <Button
-            loading={loginLoading}
+            disabled={!isValid || !dirty || registerLoading}
+            loading={registerLoading}
             positive
-            content="Login"
+            content="Register"
             type="submit"
             fluid
           />
@@ -60,4 +75,6 @@ export default function LoginForm() {
       )}
     </Formik>
   );
-}
+};
+
+export default RegsiterForm;
