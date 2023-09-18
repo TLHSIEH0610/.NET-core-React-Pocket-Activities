@@ -4,15 +4,16 @@ import StyledInput from "../../app/common/form/StyledTextInput";
 import { login } from "./queries";
 
 export default function LoginForm() {
-  const { mutate: loginMut, isLoading: loginLoading } = login();
+  const { mutateAsync: loginMut, isLoading: loginLoading } = login();
 
   return (
     <Formik
       initialValues={{ email: "", password: "", error: null }}
-      onSubmit={(values, { setErrors }) => {
-        console.log(values);
-        loginMut(values);
-      }}
+      onSubmit={(values, { setErrors }) =>
+        loginMut(values).catch(() =>
+          setErrors({ error: "Invalid email or password" })
+        )
+      }
     >
       {({ handleSubmit, errors }) => (
         <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
