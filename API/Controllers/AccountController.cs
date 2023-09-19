@@ -39,7 +39,8 @@ namespace API.Controllers
                     DisplayName = user.DisplayName,
                     Image = null,
                     Token = _tokenService.GenerateToken(user),
-                    Username = user.UserName
+                    Username = user.UserName,
+                    AppUserId = user.Id
                 };
             }
             return Unauthorized();
@@ -71,7 +72,8 @@ namespace API.Controllers
                     DisplayName = user.DisplayName,
                     Image = null,
                     Token = _tokenService.GenerateToken(user),
-                    Username = user.UserName
+                    Username = user.UserName,
+                    AppUserId = user.Id
                 };
             }
             return BadRequest(result.Errors);
@@ -93,7 +95,8 @@ namespace API.Controllers
                 DisplayName = user.DisplayName,
                 Image = null,
                 Token = _tokenService.GenerateToken(user),
-                Username = user.UserName
+                Username = user.UserName,
+                AppUserId = user.Id
             };
         }
 

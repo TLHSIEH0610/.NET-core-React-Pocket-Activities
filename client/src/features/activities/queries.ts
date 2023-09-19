@@ -13,6 +13,12 @@ export const loadActivity = (id: string) => {
   return useQuery({
     queryKey: ["loadActivity", id],
     queryFn: () => agent.activity.details(id),
+    select: (activity) => {
+      activity.host = activity.attendees?.find(
+        (a) => a.username === activity.hostUsername
+      );
+      return activity;
+    },
   });
 };
 

@@ -4,6 +4,7 @@ import { router } from "../router/Routes";
 import { toast } from "react-toastify";
 import { UserFormValues, User } from "../models/user";
 import { useAppSelector } from "../store/hooks";
+import { Photo, Profile } from "../models/profile";
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
@@ -85,9 +86,23 @@ const account = {
     methods.post<User>("/account/register", user),
 };
 
+const profile = {
+  get: (id: string) => methods.get<Profile>(`/profiles/${id}`),
+  uploadPhoto: (file: any) => {
+    let formData = new FormData();
+    formData.append("File", file);
+    return axios.post<Photo>("photos", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  },
+  setMainPhoto: (id: string) => axios.post(`/photos/${id}/setMain`, {}),
+  deletePhoto: (id: string) => axios.delete(`/photos/${id}`),
+};
+
 const agent = {
   activity,
   account,
+  profile,
 };
 
 export default agent;

@@ -1,5 +1,5 @@
 import { ErrorMessage, Form, Formik } from "formik";
-import { Button, Header, Label } from "semantic-ui-react";
+import { Button, Header } from "semantic-ui-react";
 import StyledInput from "../../app/common/form/StyledTextInput";
 import * as Yup from "yup";
 import { register } from "./queries";
@@ -32,7 +32,7 @@ const RegsiterForm = () => {
             dispatch(setToken(res.token));
             navigate("/activities");
           })
-          .catch((error) => setErrors({ error: error }))
+          .catch((error) => setErrors({ error }))
       }
       validationSchema={Yup.object({
         displayName: Yup.string().required(),

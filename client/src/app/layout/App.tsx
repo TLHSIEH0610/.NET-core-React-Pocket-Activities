@@ -10,13 +10,13 @@ import ModalContainer from "../common/modals/ModalContainer";
 
 function App() {
   const { pathname } = useLocation();
-  const { data: user, isLoading } = getUser();
+  // const { data: user, isLoading } = getUser();
 
   // todo: login persising
-  useEffect(() => {
-    if (user?.token) {
-    }
-  }, [user?.token]);
+  // useEffect(() => {
+  //   if (user?.token) {
+  //   }
+  // }, [user?.token]);
 
   return (
     <>
