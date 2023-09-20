@@ -88,7 +88,7 @@ const account = {
 
 const profile = {
   get: (id: string) => methods.get<Profile>(`/profiles/${id}`),
-  uploadPhoto: (file: any) => {
+  uploadPhoto: (file: File) => {
     let formData = new FormData();
     formData.append("File", file);
     return axios.post<Photo>("photos", formData, {

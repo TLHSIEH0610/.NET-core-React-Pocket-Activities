@@ -34,8 +34,15 @@ const ActivityItem = ({ activity }: Props) => {
               <Item.Header as={Link} to={`/activities/${activity.id}`}>
                 {activity.title}
               </Item.Header>
+
               <Item.Description>
-                Hosted by {activity.host?.displayName}
+                Hosted by
+                <Item.Description
+                  as={Link}
+                  to={`/profiles/${activity.hostUserId}`}
+                >
+                  {" " + activity.hostUsername}
+                </Item.Description>
               </Item.Description>
               {activity.isHost && (
                 <Item.Description>

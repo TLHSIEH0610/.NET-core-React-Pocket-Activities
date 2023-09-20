@@ -20,7 +20,7 @@ namespace API.Controllers
         }
 
         //put main flag on a photo
-        [HttpPut("{id}")]
+        [HttpPost("{id}/setMain")]
         public async Task<IActionResult> SetMain(string id)
         {
             return HandleResult(await Mediator.Send(new SetMain.Command { Id = id }));
