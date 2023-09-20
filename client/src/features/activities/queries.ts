@@ -52,17 +52,17 @@ export const deleteActivity = () => {
 export const updateAttendeance = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => agent.activity.delete(id),
+    mutationFn: (id: string) => agent.activity.attend(id),
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["loadActivities"] }),
+      queryClient.invalidateQueries({ queryKey: ["loadActivity"] }),
   });
 };
 
 export const cancelActivityToggle = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => agent.activity.delete(id),
+    mutationFn: (id: string) => agent.activity.attend(id),
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["loadActivities"] }),
+      queryClient.invalidateQueries({ queryKey: ["loadActivity"] }),
   });
 };
