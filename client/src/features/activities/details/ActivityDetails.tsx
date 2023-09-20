@@ -1,43 +1,38 @@
-import { Link, useParams } from "react-router-dom";
-import { Button, Card, Image } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
+import { useParams } from "react-router-dom";
+import ActivityDetailsChat from "./ActivityDetailsChat";
+import ActivityDetailsHeader from "./ActivityDetailsHeader";
+import ActivityDetailsInfo from "./ActivityDetailsInfo";
+import ActivityDetailsSidebar from "./ActivityDetailsSidebar";
 import { loadActivity } from "../queries";
-import { dateToString } from "../../../app/common/utils";
-
+import { getUser } from "../../users/queries";
 const ActivityDetails = () => {
   const { id } = useParams();
-  const { data: activity, isLoading } = loadActivity(id || "");
+  const { data: activity, isLoading: activityLoading } = loadActivity(id || "");
+  const { data: user, isLoading: getUserLoading } = getUser();
 
-  if (isLoading || !activity) return "loading";
+  if (activity && user) {
+    activity.isGoing = Boolean(
+      activity.attendees?.find((a) => a.appUserId === user.appUserId)
+    );
+    activity.isHost = activity.hostUserId === user.appUserId;
+  }
+
+  if (activityLoading || getUserLoading || !activity)
+    return <LoadingComponent />;
 
   return (
-    <Card fluid>
-      <Image src={`/assets/categoryImages/${activity.category}.jpg`} />
-      <Card.Content>
-        <Card.Header>{activity.title}</Card.Header>
-        <Card.Meta>
-          <span>{dateToString(activity.date)}</span>
-        </Card.Meta>
-        <Card.Description>{activity.description}</Card.Description>
-      </Card.Content>
-      <Card.Content extra>
-        <Button.Group widths="2">
-          <Button
-            as={Link}
-            to={`/activities/edit/${activity.id}`}
-            basic
-            color="blue"
-            content="Edit"
-          />
-          <Button
-            as={Link}
-            to="/activities"
-            basic
-            color="grey"
-            content="Cancel"
-          />
-        </Button.Group>
-      </Card.Content>
-    </Card>
+    <Grid>
+      <Grid.Column width="10">
+        <ActivityDetailsHeader activity={activity} />
+        <ActivityDetailsInfo activity={activity} />
+        <ActivityDetailsChat />
+      </Grid.Column>
+      <Grid.Column width="6">
+        <ActivityDetailsSidebar activity={activity} />
+      </Grid.Column>
+    </Grid>
   );
 };
 export default ActivityDetails;

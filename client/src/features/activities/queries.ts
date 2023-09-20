@@ -15,7 +15,7 @@ export const loadActivity = (id: string) => {
     queryFn: () => agent.activity.details(id),
     select: (activity) => {
       activity.host = activity.attendees?.find(
-        (a) => a.username === activity.hostUsername
+        (a) => a.appUserId === activity.hostUserId
       );
       return activity;
     },
@@ -41,6 +41,24 @@ export const updateActivity = () => {
 };
 
 export const deleteActivity = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => agent.activity.delete(id),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["loadActivities"] }),
+  });
+};
+
+export const updateAttendeance = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => agent.activity.delete(id),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["loadActivities"] }),
+  });
+};
+
+export const cancelActivityToggle = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => agent.activity.delete(id),
