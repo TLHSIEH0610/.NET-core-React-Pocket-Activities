@@ -17,6 +17,11 @@ const ActivityDetails = () => {
       activity.attendees?.find((a) => a.appUserId === user.appUserId)
     );
     activity.isHost = activity.hostUserId === user.appUserId;
+
+    activity.host = activity.attendees?.find((a) => {
+      console.log(a);
+      return a.appUserId === activity.hostUserId;
+    });
   }
 
   if (activityLoading || getUserLoading || !activity)

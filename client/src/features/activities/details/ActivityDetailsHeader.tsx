@@ -56,15 +56,19 @@ const ActivityDetailedHeader = ({ activity }: Props) => {
                   content={activity.title}
                   style={{ color: "white" }}
                 />
-                <p>{activity.date as unknown as string}</p>
-                <p>
-                  Hosted by{" "}
-                  <strong>
-                    <Link to={`/profiles/${activity.hostUserId}`}>
-                      {activity.hostUsername}
-                    </Link>
-                  </strong>
-                </p>
+                <Item.Description>
+                  {activity.date as unknown as string}
+                </Item.Description>
+
+                <Item.Description>
+                  Hosted by
+                  <Item.Description
+                    as={Link}
+                    to={`/profiles/${activity.hostUserId}`}
+                  >
+                    {" " + activity.hostUsername}
+                  </Item.Description>
+                </Item.Description>
               </Item.Content>
             </Item>
           </Item.Group>

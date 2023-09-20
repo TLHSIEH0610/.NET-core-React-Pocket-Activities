@@ -8,6 +8,8 @@ interface Props {
 
 const ActivityDetailedSidebar = ({ activity: { attendees, host } }: Props) => {
   if (!attendees) return null;
+
+  console.log(attendees, host);
   return (
     <>
       <Segment
