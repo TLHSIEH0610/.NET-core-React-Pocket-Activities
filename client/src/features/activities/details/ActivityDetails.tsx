@@ -7,6 +7,7 @@ import ActivityDetailsInfo from "./ActivityDetailsInfo";
 import ActivityDetailsSidebar from "./ActivityDetailsSidebar";
 import { loadActivity } from "../queries";
 import { getUser } from "../../users/queries";
+
 const ActivityDetails = () => {
   const { id } = useParams();
   const { data: activity, isLoading: activityLoading } = loadActivity(id || "");
@@ -18,10 +19,9 @@ const ActivityDetails = () => {
     );
     activity.isHost = activity.hostUserId === user.appUserId;
 
-    activity.host = activity.attendees?.find((a) => {
-      console.log(a);
-      return a.appUserId === activity.hostUserId;
-    });
+    activity.host = activity.attendees?.find(
+      (a) => a.appUserId === activity.hostUserId
+    );
   }
 
   if (activityLoading || getUserLoading || !activity)

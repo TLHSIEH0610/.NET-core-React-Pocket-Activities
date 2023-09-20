@@ -9,7 +9,6 @@ interface Props {
 }
 
 const ActivityItem = ({ activity }: Props) => {
-  console.log(activity);
   return (
     <Segment.Group>
       <Segment>
