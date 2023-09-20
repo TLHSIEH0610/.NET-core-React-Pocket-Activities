@@ -1,10 +1,11 @@
 import { Button, Container, Dropdown, Menu, Image } from "semantic-ui-react";
 import { NavLink, Link } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { useAppDispatch } from "../store/hooks";
 import { logout } from "../../features/users/usersSlice";
+import { getUser } from "../../features/users/queries";
 
 const NavBar = () => {
-  const { user } = useAppSelector((state) => state.users);
+  const { data: user } = getUser();
   const dispatch = useAppDispatch();
 
   return (
