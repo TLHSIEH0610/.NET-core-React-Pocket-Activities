@@ -69,10 +69,8 @@ export const cancelActivityToggle = () => {
 };
 
 export const addComment = () => {
-  const { hubConnection } = useAppSelector((state) => state.acticities);
-
   return useMutation({
     mutationFn: async (values: any) =>
-      await hubConnection?.invoke("SendComment", values),
+      await values.hubConnection?.invoke("SendComment", values),
   });
 };
