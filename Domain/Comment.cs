@@ -1,8 +1,12 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Domain
 {
     public class Comment
     {
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public string Id { get; set; }
         public string Body { get; set; }
         public AppUser Author { get; set; }
         public Activity Activity { get; set; }

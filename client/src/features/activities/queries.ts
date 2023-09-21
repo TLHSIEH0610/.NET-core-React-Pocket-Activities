@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import agent from "../../app/api/agent";
 import { Activity } from "../../app/models/activity";
+import { useAppSelector } from "../../app/store/hooks";
 
 export const loadActivities = () => {
   return useQuery({
@@ -64,5 +65,14 @@ export const cancelActivityToggle = () => {
     mutationFn: (id: string) => agent.activity.attend(id),
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: ["loadActivity"] }),
+  });
+};
+
+export const addComment = () => {
+  const { hubConnection } = useAppSelector((state) => state.acticities);
+
+  return useMutation({
+    mutationFn: async (values: any) =>
+      await hubConnection?.invoke("SendComment", values),
   });
 };
