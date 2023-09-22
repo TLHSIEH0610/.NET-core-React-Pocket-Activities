@@ -22,6 +22,7 @@ const ActivityListAttendee = ({ attendees }: Props) => {
           trigger={
             <List.Item as={Link} to={`/profile/${attendee.appUserId}`}>
               <Image
+                size="mini"
                 style={attendee.following ? styles : null}
                 bordered
                 circular
