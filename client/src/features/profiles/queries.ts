@@ -35,3 +35,22 @@ export const deletePhoto = () => {
       queryClient.invalidateQueries({ queryKey: ["loadProfile"] }),
   });
 };
+
+export const loadFollowings = (id: string, predicate: string) => {
+  return useQuery({
+    queryKey: ["loadFollowings", id, predicate],
+    queryFn: () => agent.profile.listFollowings(id, predicate),
+    enabled: Boolean(id),
+  });
+};
+
+export const updateFollowing = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => agent.profile.updateFollowing(id),
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: ["loadFollowings", "loadProfile"],
+      }),
+  });
+};

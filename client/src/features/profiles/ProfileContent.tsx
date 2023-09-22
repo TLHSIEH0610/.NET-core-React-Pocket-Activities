@@ -1,23 +1,25 @@
 import { Tab } from "semantic-ui-react";
 import { Profile } from "../../app/models/profile";
 import ProfilePhotos from "./ProfilePhotos";
-
+import { useSearchParams } from "react-router-dom";
+import ProfileFollowings from "./ProfileFollowings";
 interface Props {
   profile: Profile;
 }
 
 const ProfileContent = ({ profile }: Props) => {
+  const [_, setSearchParams] = useSearchParams();
   const panes = [
     { menuItem: "About", render: () => <Tab.Pane>About</Tab.Pane> },
     { menuItem: "Photos", render: () => <ProfilePhotos profile={profile} /> },
     { menuItem: "Events", render: () => <Tab.Pane>Events</Tab.Pane> },
     {
       menuItem: "Followers",
-      render: () => <Tab.Pane>Followers</Tab.Pane>,
+      render: () => <ProfileFollowings />,
     },
     {
       menuItem: "Following",
-      render: () => <Tab.Pane>Following</Tab.Pane>,
+      render: () => <ProfileFollowings />,
     },
   ];
 
@@ -26,6 +28,11 @@ const ProfileContent = ({ profile }: Props) => {
       menu={{ fluid: true, vertical: true }}
       menuPosition="right"
       panes={panes}
+      onTabChange={(_, data) => {
+        const { activeIndex, panes = [] } = data;
+        const { menuItem } = panes[Number(activeIndex)];
+        setSearchParams({ profileTab: menuItem.toLowerCase() });
+      }}
     />
   );
 };

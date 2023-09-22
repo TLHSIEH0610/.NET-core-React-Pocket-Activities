@@ -1,5 +1,3 @@
-import { User } from "./user";
-
 export interface Profile {
   username: string;
   appUserId: string;
@@ -7,6 +5,9 @@ export interface Profile {
   image?: string;
   bio?: string;
   photos?: Photo[];
+  following: boolean;
+  followerCount: number;
+  followingCount: number;
 }
 
 export interface Photo {

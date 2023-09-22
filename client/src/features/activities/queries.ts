@@ -14,6 +14,7 @@ export const loadActivity = (id: string) => {
   return useQuery({
     queryKey: ["loadActivity", id],
     queryFn: () => agent.activity.details(id),
+    //todo: move the data assemble process to here
     // select: (activity) => {
     //   activity.host = activity.attendees?.find(
     //     (a) => a.appUserId === activity.hostUserId

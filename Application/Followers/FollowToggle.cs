@@ -11,7 +11,7 @@ namespace Application.Followers
     {
         public class Command : IRequest<Result<Unit>>
         {
-            public string TargetEmail { get; set; }
+            public string TargetId { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Result<Unit>>
@@ -27,7 +27,7 @@ namespace Application.Followers
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var observer = await _dataContext.Users.FirstOrDefaultAsync(u => u.Email == _userAccessor.GetUserEmail());
-                var target = await _dataContext.Users.FirstOrDefaultAsync(u => u.Email == request.TargetEmail);
+                var target = await _dataContext.Users.FirstOrDefaultAsync(u => u.Id == request.TargetId);
                 if (target == null) return null;
                 var following = await _dataContext.UserFollowings.FindAsync(observer.Id, target.Id);
                 if (following == null) //not found, follow

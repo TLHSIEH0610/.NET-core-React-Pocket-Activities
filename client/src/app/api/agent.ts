@@ -96,8 +96,13 @@ const profile = {
       headers: { "Content-Type": "multipart/form-data" },
     });
   },
-  setMainPhoto: (id: string) => axios.post(`/photos/${id}/setMain`, {}),
-  deletePhoto: (id: string) => axios.delete(`/photos/${id}`),
+  setMainPhoto: (id: string) => methods.post(`/photos/${id}/setMain`, {}),
+  deletePhoto: (id: string) => methods.delete(`/photos/${id}`),
+  updateProfile: (profile: Partial<Profile>) =>
+    methods.put(`/profiles`, profile),
+  updateFollowing: (id: string) => methods.post(`/follow/${id}`, {}),
+  listFollowings: (id: string, predicate: string) =>
+    methods.get<Profile[]>(`/follow/${id}?predicate=${predicate}`),
 };
 
 const agent = {

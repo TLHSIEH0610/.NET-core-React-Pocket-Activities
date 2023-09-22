@@ -16,7 +16,7 @@ interface Props {
   activityId: string;
 }
 
-//todo: comments update by other browsers would not trigger re-render
+//todo: comments updated by other browsers would not trigger re-render?
 const ActivityDetailedChat = ({ activityId }: Props) => {
   const [hubConnection, setHubConnection] = useState<HubConnection | null>(
     null
@@ -91,7 +91,7 @@ const ActivityDetailedChat = ({ activityId }: Props) => {
             <Comment key={comment.id}>
               <Comment.Avatar src={comment.image || "/assets/user.png"} />
               <Comment.Content>
-                <Comment.Author as={Link} to={`/profiles/${comment.username}`}>
+                <Comment.Author as={Link} to={`/profiles/${comment.appUserId}`}>
                   {comment.displayName}
                 </Comment.Author>
                 <Comment.Metadata>
@@ -131,7 +131,7 @@ const createHubConnection = ({
   const token = localStorage.getItem("jwt");
 
   const connection = new HubConnectionBuilder()
-    .withUrl("http://localhost:5000/chat?activityId=" + activityId, {
+    .withUrl(`http://localhost:5000/chat?activityId=${activityId}`, {
       accessTokenFactory: () => token || "",
     })
     .withAutomaticReconnect()

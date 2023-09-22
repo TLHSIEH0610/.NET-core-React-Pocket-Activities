@@ -13,7 +13,7 @@ namespace Application.Followers
         public class Query : IRequest<Result<List<Profiles.Profile>>>
         {
             public string Predicate { get; set; }
-            public string UserEmail { get; set; }
+            public string UserId { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Result<List<Profiles.Profile>>>
@@ -37,14 +37,14 @@ namespace Application.Followers
                 switch (request.Predicate)
                 {
                     case "followers":
-                        profiles = await _context.UserFollowings.Where(x => x.Target.Email == request.UserEmail)
+                        profiles = await _context.UserFollowings.Where(x => x.Target.Id == request.UserId)
                             .Select(u => u.Observer)
                             .ProjectTo<Profiles.Profile>(_mapper.ConfigurationProvider,
                                 new { currentUserEmail = _userAccessor.GetUserEmail() })
                             .ToListAsync();
                         break;
                     case "following":
-                        profiles = await _context.UserFollowings.Where(x => x.Observer.Email == request.UserEmail)
+                        profiles = await _context.UserFollowings.Where(x => x.Observer.Id == request.UserId)
                             .Select(u => u.Target)
                             .ProjectTo<Profiles.Profile>(_mapper.ConfigurationProvider,
                                 new { currentUserEmail = _userAccessor.GetUserEmail() })

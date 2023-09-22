@@ -5,16 +5,16 @@ namespace API.Controllers
 {
     public class FollowController : BaseAPIController
     {
-        [HttpPost("{email}")]
-        public async Task<IActionResult> Follow(string email)
+        [HttpPost("{id}")]
+        public async Task<IActionResult> Follow(string id)
         {
-            return HandleResult(await Mediator.Send(new FollowToggle.Command { TargetEmail = email }));
+            return HandleResult(await Mediator.Send(new FollowToggle.Command { TargetId = id }));
         }
 
-        [HttpGet("{email}")]
-        public async Task<IActionResult> GetFollowings(string email, string predicate)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetFollowings(string id, string predicate)
         {
-            return HandleResult(await Mediator.Send(new List.Query { UserEmail = email, Predicate = predicate }));
+            return HandleResult(await Mediator.Send(new List.Query { UserId = id, Predicate = predicate }));
         }
 
     }
