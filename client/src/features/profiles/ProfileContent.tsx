@@ -15,11 +15,11 @@ const ProfileContent = ({ profile }: Props) => {
     { menuItem: "Events", render: () => <Tab.Pane>Events</Tab.Pane> },
     {
       menuItem: "Followers",
-      render: () => <ProfileFollowings />,
+      render: () => <ProfileFollowings profile={profile} />,
     },
     {
       menuItem: "Following",
-      render: () => <ProfileFollowings />,
+      render: () => <ProfileFollowings profile={profile} />,
     },
   ];
 

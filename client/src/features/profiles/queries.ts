@@ -3,7 +3,7 @@ import agent from "../../app/api/agent";
 
 export const loadProfile = (id: string) => {
   return useQuery({
-    queryKey: ["loadProfile"],
+    queryKey: ["loadProfile", id],
     queryFn: () => agent.profile.get(id),
     enabled: Boolean(id),
   });
@@ -48,9 +48,13 @@ export const updateFollowing = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => agent.profile.updateFollowing(id),
-    onSuccess: () =>
+    onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["loadFollowings", "loadProfile"],
-      }),
+        queryKey: ["loadProfile"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["loadFollowings"],
+      });
+    },
   });
 };

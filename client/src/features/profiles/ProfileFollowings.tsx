@@ -1,18 +1,20 @@
 import { Tab, Grid, Header, Card } from "semantic-ui-react";
 import ProfileCard from "./ProfileCard";
 import { loadFollowings } from "./queries";
-import { getUser } from "../users/queries";
 import { useSearchParams } from "react-router-dom";
+import { Profile } from "../../app/models/profile";
 
-const ProfileFollowings = () => {
+interface Props {
+  profile: Profile;
+}
+
+const ProfileFollowings = ({ profile }: Props) => {
   const [searchParams] = useSearchParams();
-
-  const { data: user } = getUser();
 
   const predicate = searchParams.get("profileTab") || "following";
 
   const { data: followings = [], isLoading: loadingFollowings } =
-    loadFollowings(user?.appUserId || "", predicate);
+    loadFollowings(profile?.appUserId || "", predicate);
 
   return (
     <Tab.Pane loading={loadingFollowings}>
@@ -23,15 +25,15 @@ const ProfileFollowings = () => {
             icon="user"
             content={
               predicate === "following"
-                ? `People following ${user!.displayName}`
-                : `People ${user?.displayName} is following`
+                ? `People ${profile?.displayName} is following`
+                : `People following ${profile!.displayName}`
             }
           />
         </Grid.Column>
         <Grid.Column width="16">
           <Card.Group itemsPerRow="5">
             {followings.map((profile) => (
-              <ProfileCard key={profile.username} profile={profile} />
+              <ProfileCard key={profile.appUserId} profile={profile} />
             ))}
           </Card.Group>
         </Grid.Column>
