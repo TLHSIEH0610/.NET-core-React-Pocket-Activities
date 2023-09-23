@@ -6,6 +6,7 @@ import { Fragment, useMemo } from "react";
 import { DateTime } from "luxon";
 import { getUser } from "../../users/queries";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
+import { Pagination } from "semantic-ui-react";
 
 const ActivityDashboard = () => {
   // const acticities = useAppSelector((state) => state.acticities);
@@ -39,17 +40,34 @@ const ActivityDashboard = () => {
     );
   }, [activities, user]);
 
-  return groupedActivities?.map(([group, activities]) => (
-    <Fragment key={group}>
-      <Header sub color="teal">
-        {group}
-      </Header>
-      {activities &&
-        activities.map((activity) => (
-          <ActivityItem key={activity.id} activity={activity} />
-        ))}
+  return (
+    <Fragment>
+      {groupedActivities?.map(([group, activities]) => (
+        <Fragment key={group}>
+          <Header sub color="teal">
+            {group}
+          </Header>
+          {activities &&
+            activities.map((activity) => (
+              <ActivityItem key={activity.id} activity={activity} />
+            ))}
+        </Fragment>
+      ))}
+      <PaginationComponent />
     </Fragment>
-  ));
+  );
 };
 
 export default ActivityDashboard;
+//todo: implement pagination feature
+const PaginationComponent = () => (
+  <Pagination
+    boundaryRange={0}
+    defaultActivePage={1}
+    ellipsisItem={null}
+    firstItem={null}
+    lastItem={null}
+    siblingRange={1}
+    totalPages={10}
+  />
+);

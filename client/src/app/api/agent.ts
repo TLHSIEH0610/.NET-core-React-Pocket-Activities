@@ -18,7 +18,10 @@ axios.interceptors.request.use((config) => {
 
 axios.interceptors.response.use(
   async (response) => {
-    //successful
+    const pagination = response.headers["pagination"];
+    if (pagination) {
+      response.data.pagination = JSON.parse(pagination);
+    }
     return response;
   },
   (error: AxiosError) => {
