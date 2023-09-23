@@ -12,9 +12,13 @@ namespace Application.Activities
     public class List
     {
 
-        public class Query : IRequest<Result<List<ActivityDto>>> { }
+        public class Query : IRequest<Result<PageList<ActivityDto>>>
+        {
 
-        public class Handler : IRequestHandler<Query, Result<List<ActivityDto>>>
+            public PagingParams Params { get; set; }
+        }
+
+        public class Handler : IRequestHandler<Query, Result<PageList<ActivityDto>>>
         {
             public readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -26,12 +30,13 @@ namespace Application.Activities
                 _context = context;
             }
 
-            public async Task<Result<List<ActivityDto>>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<PageList<ActivityDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var activities = await _context.Activities.ProjectTo<ActivityDto>(_mapper.ConfigurationProvider, new { currentUserEmail = _userAccessor.GetUserEmail() }).ToListAsync();
-                //use ActivityDto instead of Activity to shape data and prevent infinite loop/object cycle error
-                var shapedActivities = _mapper.Map<List<ActivityDto>>(activities);
-                return Result<List<ActivityDto>>.Success(shapedActivities);
+                var query = _context.Activities.ProjectTo<ActivityDto>(_mapper.ConfigurationProvider, new { currentUserEmail = _userAccessor.GetUserEmail() })
+                .AsQueryable();
+
+                //execute query
+                return Result<PageList<ActivityDto>>.Success(await PageList<ActivityDto>.CreateAsync(query, request.Params.PageNumber, request.Params.PageSize));
             }
         }
 
