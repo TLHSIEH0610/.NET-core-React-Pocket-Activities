@@ -131,7 +131,7 @@ const createHubConnection = ({
   const token = localStorage.getItem("jwt");
 
   const connection = new HubConnectionBuilder()
-    .withUrl(`http://localhost:5000/chat?activityId=${activityId}`, {
+    .withUrl(`${import.meta.env.VITE_CHAT_URL}?activityId=${activityId}`, {
       accessTokenFactory: () => token || "",
     })
     .withAutomaticReconnect()

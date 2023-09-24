@@ -3,12 +3,13 @@ import { Activity } from "../models/activity";
 import { router } from "../router/Routes";
 import { toast } from "react-toastify";
 import { UserFormValues, User } from "../models/user";
-import { useAppSelector } from "../store/hooks";
 import { Photo, Profile } from "../models/profile";
+
+const baseURL = import.meta.env.VITE_API_URL;
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
-axios.defaults.baseURL = "http://localhost:5000/api";
+axios.defaults.baseURL = baseURL;
 
 axios.interceptors.request.use((config) => {
   const token = localStorage.getItem("jwt");
