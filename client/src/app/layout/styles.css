@@ -1,7 +1,9 @@
+/* date picker */
 .react-datepicker-wrapper {
   width: 100%;
 }
 
+/* home */
 .masthead {
   display: flex;
   align-items: center;
@@ -27,4 +29,11 @@
 .masthead h2 {
   font-size: 1.7em;
   font-weight: normal;
+}
+
+/* calendar */
+.react-calendar {
+  width: 100% !important;
+  border: none !important;
+  box-shadow: 0 1px 2px 0 rgba(34, 36, 38, 0.15) !important;
 }

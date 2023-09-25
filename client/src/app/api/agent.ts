@@ -75,7 +75,8 @@ const methods = {
 };
 
 const activity = {
-  list: () => methods.get<Activity[]>("/activities"),
+  list: (queryString: string) =>
+    methods.get<Activity[]>(`/activities?${queryString ?? ""}`),
   details: (id: string) => methods.get<Activity>(`/activities/${id}`),
   create: (activity: Activity) => methods.post<void>(`/activities`, activity),
   update: (activity: Activity) =>

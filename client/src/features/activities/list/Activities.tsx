@@ -1,4 +1,4 @@
-import { Header } from "semantic-ui-react";
+import { Grid, Header } from "semantic-ui-react";
 import { loadActivities, deleteActivity } from "../queries";
 import ActivityItem from "./ActivityItem";
 import { Activity } from "../../../app/models/activity";
@@ -7,12 +7,19 @@ import { DateTime } from "luxon";
 import { getUser } from "../../users/queries";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { Pagination } from "semantic-ui-react";
+import ActivityFilter from "./ActivityFilter";
+import { useSearchParams } from "react-router-dom";
 
 const ActivityDashboard = () => {
-  // const acticities = useAppSelector((state) => state.acticities);
+  const [searchParams] = useSearchParams();
 
-  const { data: activities = [], isLoading } = loadActivities();
-  const { data: user } = getUser();
+  const queryString = new URLSearchParams(
+    Object.fromEntries(searchParams)
+  ).toString();
+
+  const { data: activities = [], isLoading: activityLoading } =
+    loadActivities(queryString);
+  const { data: user, isLoading: getUserLoading } = getUser();
   const { mutate: deleteMutation } = deleteActivity();
 
   const groupedActivities = useMemo(() => {
@@ -40,21 +47,28 @@ const ActivityDashboard = () => {
     );
   }, [activities, user]);
 
+  if (activityLoading || getUserLoading) return <LoadingComponent />;
+
   return (
-    <Fragment>
-      {groupedActivities?.map(([group, activities]) => (
-        <Fragment key={group}>
-          <Header sub color="teal">
-            {group}
-          </Header>
-          {activities &&
-            activities.map((activity) => (
-              <ActivityItem key={activity.id} activity={activity} />
-            ))}
-        </Fragment>
-      ))}
-      <PaginationComponent />
-    </Fragment>
+    <Grid>
+      <Grid.Column width="10">
+        {groupedActivities?.map(([group, activities]) => (
+          <Fragment key={group}>
+            <Header sub color="teal">
+              {group}
+            </Header>
+            {activities &&
+              activities.map((activity) => (
+                <ActivityItem key={activity.id} activity={activity} />
+              ))}
+          </Fragment>
+        ))}
+        <PaginationComponent />
+      </Grid.Column>
+      <Grid.Column width="6">
+        <ActivityFilter />
+      </Grid.Column>
+    </Grid>
   );
 };
 
