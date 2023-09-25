@@ -2,7 +2,7 @@ import { ErrorMessage, Form, Formik } from "formik";
 import { Button, Header, Label } from "semantic-ui-react";
 import StyledInput from "../../app/common/form/StyledTextInput";
 import { login } from "./queries";
-import { useAppSelector, useAppDispatch } from "../../app/store/hooks";
+import { useAppDispatch } from "../../app/store/hooks";
 import { setToken } from "./usersSlice";
 import { closeModal } from "../../app/common/commonSlice";
 import { useNavigate } from "react-router-dom";

@@ -9,7 +9,7 @@ export interface Activity {
   city: string;
   venue: string;
   hostUsername?: string;
-  hostUserId: string;
+  hostUserId?: string;
   isCancelled?: boolean;
   isGoing?: boolean;
   isHost?: boolean;

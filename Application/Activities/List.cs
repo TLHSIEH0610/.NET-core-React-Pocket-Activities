@@ -15,7 +15,8 @@ namespace Application.Activities
         public class Query : IRequest<Result<PageList<ActivityDto>>>
         {
 
-            public PagingParams Params { get; set; }
+            public ActivityParams Params { get; set; }
+
         }
 
         public class Handler : IRequestHandler<Query, Result<PageList<ActivityDto>>>
@@ -32,8 +33,18 @@ namespace Application.Activities
 
             public async Task<Result<PageList<ActivityDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var query = _context.Activities.ProjectTo<ActivityDto>(_mapper.ConfigurationProvider, new { currentUserEmail = _userAccessor.GetUserEmail() })
+                var query = _context.Activities.Where(d => d.Date >= request.Params.StartDate).OrderBy(d => d.Date).ProjectTo<ActivityDto>(_mapper.ConfigurationProvider, new { currentUserEmail = _userAccessor.GetUserEmail() })
                 .AsQueryable();
+
+                if (request.Params.ActivityFilter == "isGoing")
+                {
+                    query = query.Where(x => x.Attendees.Any(a => a.AppUserId == _userAccessor.GetUserId()));
+                }
+
+                if (request.Params.ActivityFilter == "isHost")
+                {
+                    query = query.Where(x => x.HostUserId == _userAccessor.GetUserId());
+                }
 
                 //execute query
                 return Result<PageList<ActivityDto>>.Success(await PageList<ActivityDto>.CreateAsync(query, request.Params.PageNumber, request.Params.PageSize));

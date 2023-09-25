@@ -6,5 +6,7 @@ namespace Application.Interfaces
     {
         string GetUserEmail();
 
+        string GetUserId();
+
     }
 }

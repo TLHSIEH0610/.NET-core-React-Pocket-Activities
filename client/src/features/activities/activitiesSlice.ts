@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Activity } from "../../app/models/activity";
 
 interface State {}
 

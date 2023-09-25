@@ -1,5 +1,5 @@
 import { Grid, Header } from "semantic-ui-react";
-import { loadActivities, deleteActivity } from "../queries";
+import { loadActivities } from "../queries";
 import ActivityItem from "./ActivityItem";
 import { Activity } from "../../../app/models/activity";
 import { Fragment, useMemo } from "react";
@@ -20,7 +20,7 @@ const ActivityDashboard = () => {
 
   const { data, isLoading: activityLoading } = loadActivities(queryString);
   const { data: user, isLoading: getUserLoading } = getUser();
-  const { mutate: deleteMutation } = deleteActivity();
+
   const activities = data?.data;
   const pagination = data?.pagination;
 

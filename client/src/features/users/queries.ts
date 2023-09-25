@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import agent from "../../app/api/agent";
 import { UserFormValues } from "../../app/models/user";
 

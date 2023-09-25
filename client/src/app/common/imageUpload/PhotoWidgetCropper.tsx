@@ -1,4 +1,4 @@
-import Cropper, { ReactCropperElement } from "react-cropper";
+import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 
 interface Props {
