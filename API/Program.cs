@@ -40,10 +40,15 @@ app.UseCors("CorsPolicy");
 app.UseAuthentication(); //must before authorization
 app.UseAuthorization();
 
+//serve static
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.MapControllers();
 
 //route for signalR
 app.MapHub<ChatHub>("/chat");
+app.MapFallbackToController("Index", "Fallback");
 
 using var scope = app.Services.CreateScope();
 var service = scope.ServiceProvider;
