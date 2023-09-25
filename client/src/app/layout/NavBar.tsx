@@ -12,8 +12,11 @@ const NavBar = () => {
     <Menu inverted fixed="top">
       <Container>
         <Menu.Item as={NavLink} to="/" header>
-          <img src="/assets/logo.jpeg" alt="logo" style={{ marginRight: 10 }} />
-          Activities
+          <Image
+            src="/assets/logo.svg"
+            alt="logo"
+            style={{ marginRight: 10, width: 100 }}
+          />
         </Menu.Item>
         <Menu.Item as={NavLink} to="/activities" name="Activities" />
         <Menu.Item>

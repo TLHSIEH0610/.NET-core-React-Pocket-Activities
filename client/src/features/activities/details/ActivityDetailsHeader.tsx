@@ -2,9 +2,10 @@ import { Link } from "react-router-dom";
 import { Button, Header, Item, Segment, Image, Label } from "semantic-ui-react";
 import { Activity } from "../../../app/models/activity";
 import { cancelActivityToggle, updateAttendeance } from "../queries";
+import { DateTime } from "luxon";
 
 const activityImageStyle = {
-  filter: "brightness(30%)",
+  filter: "brightness(60%)",
 };
 
 const activityImageTextStyle = {
@@ -43,7 +44,7 @@ const ActivityDetailedHeader = ({ activity }: Props) => {
           />
         )}
         <Image
-          //   src={``}
+          src={`/assets/${activity.category}.jpg`}
           fluid
           style={activityImageStyle}
         />
@@ -56,19 +57,20 @@ const ActivityDetailedHeader = ({ activity }: Props) => {
                   content={activity.title}
                   style={{ color: "white" }}
                 />
-                <Item.Description>
-                  {activity.date as unknown as string}
-                </Item.Description>
+                <p>
+                  {DateTime.fromISO(
+                    activity.date as unknown as string
+                  ).toFormat("dd-MM-yyyy")}
 
-                <Item.Description>
-                  Hosted by
-                  <Item.Description
-                    as={Link}
-                    to={`/profiles/${activity.hostUserId}`}
-                  >
-                    {" " + activity.hostUsername}
-                  </Item.Description>
-                </Item.Description>
+                  <p>
+                    <strong>
+                      <Link to={`/profiles/${activity.hostUserId}`}>
+                        {" "}
+                        Hosted by {activity.hostUsername}
+                      </Link>
+                    </strong>
+                  </p>
+                </p>
               </Item.Content>
             </Item>
           </Item.Group>

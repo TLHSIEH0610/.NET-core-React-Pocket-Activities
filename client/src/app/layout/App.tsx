@@ -4,19 +4,10 @@ import NavBar from "./NavBar";
 import "./styles.css";
 import { Container } from "semantic-ui-react";
 import { ToastContainer } from "react-toastify";
-import { useEffect } from "react";
-import { getUser } from "../../features/users/queries";
 import ModalContainer from "../common/modals/ModalContainer";
 
 function App() {
   const { pathname } = useLocation();
-  // const { data: user, isLoading } = getUser();
-
-  // todo: login persising
-  // useEffect(() => {
-  //   if (user?.token) {
-  //   }
-  // }, [user?.token]);
 
   return (
     <>
@@ -28,7 +19,7 @@ function App() {
       ) : (
         <>
           <NavBar />
-          <Container text style={{ marginTop: "7em" }}>
+          <Container style={{ marginTop: "10em" }}>
             <Outlet />
           </Container>
         </>
