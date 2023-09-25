@@ -9,18 +9,20 @@ import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { Pagination } from "semantic-ui-react";
 import ActivityFilter from "./ActivityFilter";
 import { useSearchParams } from "react-router-dom";
+import { PaginationProps } from "../../../app/models/pagination";
 
 const ActivityDashboard = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const queryString = new URLSearchParams(
     Object.fromEntries(searchParams)
   ).toString();
 
-  const { data: activities = [], isLoading: activityLoading } =
-    loadActivities(queryString);
+  const { data, isLoading: activityLoading } = loadActivities(queryString);
   const { data: user, isLoading: getUserLoading } = getUser();
   const { mutate: deleteMutation } = deleteActivity();
+  const activities = data?.data;
+  const pagination = data?.pagination;
 
   const groupedActivities = useMemo(() => {
     if (!activities || !user) return [];
@@ -63,7 +65,13 @@ const ActivityDashboard = () => {
               ))}
           </Fragment>
         ))}
-        <PaginationComponent />
+        {pagination && (
+          <PaginationComponent
+            searchParams={searchParams}
+            setSearchParams={setSearchParams}
+            pagination={pagination}
+          />
+        )}
       </Grid.Column>
       <Grid.Column width="6">
         <ActivityFilter />
@@ -73,15 +81,28 @@ const ActivityDashboard = () => {
 };
 
 export default ActivityDashboard;
-//todo: implement pagination feature
-const PaginationComponent = () => (
+
+const PaginationComponent = ({
+  setSearchParams,
+  searchParams,
+  pagination,
+}: {
+  setSearchParams: any;
+  searchParams: any;
+  pagination: PaginationProps;
+}) => (
   <Pagination
+    onPageChange={(e, { activePage }) => {
+      console.log(e, activePage);
+      setSearchParams({ ...searchParams, currentPage: activePage });
+    }}
     boundaryRange={0}
     defaultActivePage={1}
     ellipsisItem={null}
     firstItem={null}
     lastItem={null}
     siblingRange={1}
-    totalPages={10}
+    activePage={pagination.currentPage || 1}
+    totalPages={pagination.totalPage || 10}
   />
 );

@@ -4,8 +4,14 @@ import { router } from "../router/Routes";
 import { toast } from "react-toastify";
 import { UserFormValues, User } from "../models/user";
 import { Photo, Profile } from "../models/profile";
+import { PaginationProps } from "../models/pagination";
 
 const baseURL = import.meta.env.VITE_API_URL;
+
+interface AxiosResponseWithPagi<T> extends AxiosResponse {
+  data: T;
+  pagination?: PaginationProps;
+}
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
@@ -18,10 +24,10 @@ axios.interceptors.request.use((config) => {
 });
 
 axios.interceptors.response.use(
-  async (response) => {
+  async (response: AxiosResponseWithPagi<any>) => {
     const pagination = response.headers["pagination"];
     if (pagination) {
-      response.data.pagination = JSON.parse(pagination);
+      response.pagination = JSON.parse(pagination);
     }
     return response;
   },
@@ -75,8 +81,13 @@ const methods = {
 };
 
 const activity = {
-  list: (queryString: string) =>
-    methods.get<Activity[]>(`/activities?${queryString ?? ""}`),
+  list: <T>(queryString: string) =>
+    axios
+      .get<T>(`/activities?${queryString ?? ""}`)
+      .then(({ pagination, data }: AxiosResponseWithPagi<T>) => ({
+        pagination,
+        data,
+      })),
   details: (id: string) => methods.get<Activity>(`/activities/${id}`),
   create: (activity: Activity) => methods.post<void>(`/activities`, activity),
   update: (activity: Activity) =>

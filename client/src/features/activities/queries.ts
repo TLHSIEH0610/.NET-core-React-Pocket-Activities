@@ -5,7 +5,7 @@ import { Activity } from "../../app/models/activity";
 export const loadActivities = (queryString: string) => {
   return useQuery({
     queryKey: ["loadActivities", queryString],
-    queryFn: () => agent.activity.list(queryString),
+    queryFn: () => agent.activity.list<Activity[]>(queryString),
   });
 };
 
