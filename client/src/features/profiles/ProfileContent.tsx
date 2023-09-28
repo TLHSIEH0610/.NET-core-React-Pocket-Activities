@@ -3,6 +3,7 @@ import { Profile } from "../../app/models/profile";
 import ProfilePhotos from "./ProfilePhotos";
 import { useSearchParams } from "react-router-dom";
 import ProfileFollowings from "./ProfileFollowings";
+import ProfileAbout from "./ProfileAbout";
 interface Props {
   profile: Profile;
 }
@@ -10,7 +11,7 @@ interface Props {
 const ProfileContent = ({ profile }: Props) => {
   const [_, setSearchParams] = useSearchParams();
   const panes = [
-    { menuItem: "About", render: () => <Tab.Pane>About</Tab.Pane> },
+    { menuItem: "About", render: () => <ProfileAbout profile={profile} /> },
     { menuItem: "Photos", render: () => <ProfilePhotos profile={profile} /> },
     { menuItem: "Events", render: () => <Tab.Pane>Events</Tab.Pane> },
     {

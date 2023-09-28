@@ -1,11 +1,22 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import agent from "../../app/api/agent";
+import { Profile } from "../../app/models/profile";
 
 export const loadProfile = (id: string) => {
   return useQuery({
     queryKey: ["loadProfile", id],
     queryFn: () => agent.profile.get(id),
     enabled: Boolean(id),
+  });
+};
+
+export const updateProfile = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (profile: Partial<Profile>) =>
+      agent.profile.updateProfile(profile),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["loadProfile"] }),
   });
 };
 
