@@ -3,7 +3,7 @@ import { Activity } from "../models/activity";
 import { router } from "../router/Routes";
 import { toast } from "react-toastify";
 import { UserFormValues, User } from "../models/user";
-import { Photo, Profile } from "../models/profile";
+import { Photo, Profile, UserEvent } from "../models/profile";
 import { PaginationProps } from "../models/pagination";
 
 const baseURL = import.meta.env.VITE_API_URL;
@@ -81,7 +81,7 @@ const methods = {
 };
 
 const activity = {
-  list: <T>(queryString: string) =>
+  list: <T>(queryString?: string) =>
     axios
       .get<T>(`/activities?${queryString ?? ""}`)
       .then(({ pagination, data }: AxiosResponseWithPagi<T>) => ({
@@ -119,6 +119,10 @@ const profile = {
   updateFollowing: (id: string) => methods.post(`/follow/${id}`, {}),
   listFollowings: (id: string, predicate: string) =>
     methods.get<Profile[]>(`/follow/${id}?predicate=${predicate}`),
+  listEvents: (id: string, predicate: string) =>
+    methods.get<UserEvent[]>(
+      `/profiles/activities/${id}?predicate=${predicate}`
+    ),
 };
 
 const agent = {

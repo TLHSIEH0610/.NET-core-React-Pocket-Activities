@@ -4,6 +4,8 @@ import ProfilePhotos from "./ProfilePhotos";
 import { useSearchParams } from "react-router-dom";
 import ProfileFollowings from "./ProfileFollowings";
 import ProfileAbout from "./ProfileAbout";
+import ProfileEvents from "./ProfileEvents";
+
 interface Props {
   profile: Profile;
 }
@@ -13,7 +15,7 @@ const ProfileContent = ({ profile }: Props) => {
   const panes = [
     { menuItem: "About", render: () => <ProfileAbout profile={profile} /> },
     { menuItem: "Photos", render: () => <ProfilePhotos profile={profile} /> },
-    { menuItem: "Events", render: () => <Tab.Pane>Events</Tab.Pane> },
+    { menuItem: "Events", render: () => <ProfileEvents /> },
     {
       menuItem: "Followers",
       render: () => <ProfileFollowings profile={profile} />,

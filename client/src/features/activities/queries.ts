@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import agent from "../../app/api/agent";
 import { Activity } from "../../app/models/activity";
 
-export const loadActivities = (queryString: string) => {
+export const loadActivities = (queryString?: string) => {
   return useQuery({
     queryKey: ["loadActivities", queryString],
     queryFn: () => agent.activity.list<Activity[]>(queryString),

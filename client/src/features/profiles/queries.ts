@@ -10,6 +10,13 @@ export const loadProfile = (id: string) => {
   });
 };
 
+export const loadUserEvents = (id: string, predicate: string) => {
+  return useQuery({
+    queryKey: ["loadUserEvents", id, predicate],
+    queryFn: () => agent.profile.listEvents(id, predicate),
+  });
+};
+
 export const updateProfile = () => {
   const queryClient = useQueryClient();
   return useMutation({
