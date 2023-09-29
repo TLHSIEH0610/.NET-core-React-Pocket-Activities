@@ -21,7 +21,7 @@ const ProfileEvents = () => {
     predicate
   );
 
-  const handleTabChange = (e: SyntheticEvent, data: TabProps) => {
+  const handleTabChange = (_: SyntheticEvent, data: TabProps) => {
     setPredicate(panes[data.activeIndex as number].pane.key);
   };
 
