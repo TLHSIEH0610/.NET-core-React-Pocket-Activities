@@ -17,6 +17,7 @@ export const register = () => {
 
 export const getUser = () => {
   const token = localStorage.getItem("jwt");
+
   return useQuery({
     queryKey: ["getUser"],
     queryFn: () => agent.account.current(),

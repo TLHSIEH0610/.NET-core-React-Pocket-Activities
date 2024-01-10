@@ -9,7 +9,7 @@ import { getUser } from "../users/queries";
 const HomePage = () => {
   const { data: user } = getUser();
   const dispatch = useAppDispatch();
-  const isLogin = Boolean(user);
+  const isLogin = Boolean(user && localStorage.getItem("jwt"));
 
   return (
     <Segment inverted textAlign="center" vertical className="masthead">
