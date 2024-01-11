@@ -7,7 +7,7 @@ export default function ServerError() {
       <Header sub as="h5" color="red" content={"Internal Server Error"} />
 
       <Segment>
-        <Header as="h4" content="Stack trace" color="teal" />
+        <Header as="h4" content="Stack trace" color="blue" />
         <code style={{ marginTop: "10px" }}>{"todo: error.detail"}</code>
       </Segment>
     </Container>

@@ -56,7 +56,7 @@ const ActivityDashboard = () => {
       <Grid.Column width="10">
         {groupedActivities?.map(([group, activities]) => (
           <Fragment key={group}>
-            <Header sub color="teal">
+            <Header sub color="blue">
               {group}
             </Header>
             {activities &&
@@ -97,7 +97,6 @@ const PaginationComponent = ({
       setSearchParams({ ...searchParams, currentPage: activePage });
     }}
     boundaryRange={0}
-    defaultActivePage={1}
     ellipsisItem={null}
     firstItem={null}
     lastItem={null}

@@ -46,7 +46,7 @@ const RegsiterForm = () => {
           <Header
             as="h2"
             content="Sign up to Reactivities"
-            color="teal"
+            color="blue"
             textAlign="center"
           />
           <StyledInput placeholder="Prefer Name" name="displayName" />

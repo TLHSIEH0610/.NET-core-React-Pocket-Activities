@@ -78,7 +78,7 @@ const ActivityItem = ({ activity }: Props) => {
         <Button
           as={Link}
           to={`/activities/${activity.id}`}
-          color="teal"
+          color="blue"
           floated="right"
           content="View"
         />

@@ -33,7 +33,7 @@ export default function LoginForm() {
           <Header
             as="h2"
             content="Login to Reactivities"
-            color="teal"
+            color="blue"
             textAlign="center"
           />
           <StyledInput placeholder="Email" name="email" />

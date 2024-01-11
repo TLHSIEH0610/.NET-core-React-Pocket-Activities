@@ -24,7 +24,7 @@ const FollowButton = ({ profile }: Props) => {
       <Reveal.Content visible style={{ width: "100%" }}>
         <Button
           fluid
-          color="teal"
+          color="blue"
           content={profile.following ? "Following" : "Not Following"}
         />
       </Reveal.Content>

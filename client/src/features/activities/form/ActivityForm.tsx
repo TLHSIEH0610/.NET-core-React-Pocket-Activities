@@ -55,7 +55,7 @@ const ActivityForm = () => {
 
   return (
     <Segment clearing>
-      <Header content="Activity Details" sub color="teal" />
+      <Header content="Activity Details" sub color="blue" />
       <Formik
         validationSchema={validationSchema}
         initialValues={activity}
@@ -82,7 +82,7 @@ const ActivityForm = () => {
               dateFormat="MMMM d, yyyy h:mm aa"
             />
 
-            <Header content="Location Details" sub color="teal" />
+            <Header content="Location Details" sub color="blue" />
             <StyledInput name="venue" placeholder="Venue" />
             <StyledInput name="city" placeholder="city" />
 

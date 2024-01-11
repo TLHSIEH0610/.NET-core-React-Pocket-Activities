@@ -57,20 +57,16 @@ const ActivityDetailedHeader = ({ activity }: Props) => {
                   content={activity.title}
                   style={{ color: "white" }}
                 />
-                <p>
-                  {DateTime.fromISO(
-                    activity.date as unknown as string
-                  ).toFormat("dd-MM-yyyy")}
 
-                  <p>
-                    <strong>
-                      <Link to={`/profiles/${activity.hostUserId}`}>
-                        {" "}
-                        Hosted by {activity.hostUsername}
-                      </Link>
-                    </strong>
-                  </p>
-                </p>
+                {DateTime.fromISO(activity.date as unknown as string).toFormat(
+                  "dd-MM-yyyy"
+                )}
+
+                <strong>
+                  <Link to={`/profiles/${activity.hostUserId}`}>
+                    Hosted by {activity.hostUsername}
+                  </Link>
+                </strong>
               </Item.Content>
             </Item>
           </Item.Group>
@@ -113,7 +109,7 @@ const ActivityDetailedHeader = ({ activity }: Props) => {
             disabled={activity.isCancelled}
             onClick={() => updateAttendeanceMut(activity.id!)}
             loading={loading}
-            color="teal"
+            color="blue"
           >
             Join Activity
           </Button>
